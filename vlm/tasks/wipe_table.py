@@ -4,6 +4,7 @@ import numpy as np
 import os
 from scipy.spatial.transform import Rotation as R
 from pyrep.objects.dummy import Dummy
+from pyrep.backend import sim
 from pyrep.const import ObjectType, PrimitiveShape
 from amsolver.backend.task import Task
 from pyrep.objects.shape import Shape
@@ -121,7 +122,7 @@ class WipeTable(Task):
             self.shape_lib[selected_obj] = []
             for i in range(self.area_num):
                 dirt_area = self.pyrep.import_model(model_path)
-                dirt_area.scale_factor = lib.simGetObjectSizeFactor(ffi.cast('int',dirt_area._handle))
+                dirt_area.scale_factor = sim.simGetObjectSizeFactor(dirt_area._handle)
                 scale_object(dirt_area, np.random.uniform(0.9, 1.1))
                 dirt_area.directional = planes[selected_obj]['directional']
                 dirt_area.set_parent(self.taks_base)

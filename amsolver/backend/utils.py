@@ -216,13 +216,12 @@ def rgb_handles_to_mask(rgb_coded_handles):
 New functions
 '''
 def scale_object(obj, scale_factor: float, scale_position: bool = True) -> None:
-    objectHandle = ffi.new('int[1]', [obj._handle])
-    current_scale = lib.simGetObjectSizeFactor(ffi.cast('int',obj._handle))
+    current_scale = sim.simGetObjectSizeFactor(obj._handle)
     if hasattr(obj, "scale_factor"):
       current_scale /= obj.scale_factor
     relative_factor = scale_factor/current_scale
     if abs(relative_factor-1)>1e-2:
-      lib.simScaleObjects(objectHandle, ffi.cast('int',1), ffi.cast('float', scale_factor/current_scale), ffi.cast('bool', scale_position))
+      sim.simScaleObjects([obj._handle],  scale_factor/current_scale,  scale_position)
     return relative_factor
     
 def get_relative_position_xy(object1, object2, robot):
@@ -458,7 +457,6 @@ def get_local_grasp_pose(obj: Object, ply_file: str, grasp_pose_path = './vlm/gr
   return gl.se3_output
 
 def add_joint(jointType, jointMode=sim.sim_jointmode_force, length=0.2, diameter=0.02): # joint axis is along Z
-    jointMode = ffi.cast('int', jointMode)
     if jointType == 'revolute':
         j_t = JointType.REVOLUTE
     elif jointType == 'prismatic':
@@ -467,11 +465,7 @@ def add_joint(jointType, jointMode=sim.sim_jointmode_force, length=0.2, diameter
         j_t = JointType.SPHERICAL
     else:
         raise ValueError('the wrong joint type')
-    j_t = ffi.cast('int', j_t.value)
-    sizes = ffi.new('float[]',[length, diameter])
-    color_A = ffi.new('float[]',[1,0,0])
-    color_B = ffi.new('float[]',[0,0,1])
-    handle = lib.simCreateJoint(j_t, jointMode, ffi.cast('int',0), sizes, color_A, color_B)
+    handle = sim.simCreateJoint(j_t.value, jointMode, 0, [length, diameter])
     return Joint(int(handle))
 
 def create_rotation_joint(container_pour, container_recv):

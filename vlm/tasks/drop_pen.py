@@ -3,6 +3,7 @@ import numpy as np
 import os
 from amsolver.backend.task import Task
 from pyrep.objects.dummy import Dummy
+from pyrep.backend import sim
 from pyrep.objects.shape import Shape
 from pyrep.objects.proximity_sensor import ProximitySensor
 from pyrep.const import ObjectType, PrimitiveShape
@@ -105,7 +106,7 @@ class DropPen(Task):
         for i in range(2):
             target = self.pyrep.import_model(target_path)
             target.set_model_dynamic(False)
-            target.scale_factor = lib.simGetObjectSizeFactor(ffi.cast('int',target._handle))
+            target.scale_factor = sim.simGetObjectSizeFactor(target._handle)
             target.set_parent(self.taks_base)
             for children in target.get_objects_in_tree(exclude_base=True):
                 if children.get_type() == ObjectType.PROXIMITY_SENSOR:
