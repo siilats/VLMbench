@@ -131,7 +131,8 @@ class DropPen(Task):
     def load(self, ttms_folder=None):
         if Shape.exists('drop_pen'):
             return Dummy('drop_pen')
-        ttm_file = os.path.join(ttms_folder, 'drop_pen.ttm')
+        ttm_file = os.path.abspath(
+            os.path.join(ttms_folder, 'drop_pen.ttm'))
         self._base_object = self.pyrep.import_model(ttm_file)
         return self._base_object
     

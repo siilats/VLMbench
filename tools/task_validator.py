@@ -22,13 +22,13 @@ class TaskValidationError(Exception):
 
 
 def task_smoke(task: Task, scene: Scene, variation=-1, demos=4, success=0.50,
-               max_variations=3, test_demos=True):
+               max_variations=3, test_demos=True, demo_attempts=DEMO_ATTEMPTS):
     # -1 variations for all.
 
     print('Running task validator on task: %s' % task.get_name())
 
     # Loading
-    scene.load(task)
+    scene.load(task,ttms_folder='../vlm/task_ttms')
 
     # Number of variations
     variation_count = task.variation_count()
@@ -61,7 +61,7 @@ def task_smoke(task: Task, scene: Scene, variation=-1, demos=4, success=0.50,
 
         attempt_result = False
         failed_demos = 0
-        for j in range(DEMO_ATTEMPTS):
+        for j in range(demo_attempts):
             failed_demos = run_demos(i)
             attempt_result = (failed_demos / float(demos) <= 1. - success)
             if attempt_result:
@@ -121,13 +121,13 @@ if __name__ == '__main__':
     python_file = os.path.join(TASKS_PATH, args.task)
     if not os.path.isfile(python_file):
         raise RuntimeError('Could not find the task file: %s' % python_file)
-
-    task_class = task_file_to_task_class(args.task)
+# import vlm.tasks.drop_pen
+    task_class = task_file_to_task_class(args.task,parent_folder="vlm")
 
     DIR_PATH = os.path.dirname(os.path.abspath(__file__))
     sim = PyRep()
     ttt_file = os.path.join(
-        DIR_PATH, '..', 'rlbench', TTT_FILE)
+        DIR_PATH, '..', 'amsolver', TTT_FILE)
     sim.launch(ttt_file, headless=True)
     sim.step_ui()
     sim.set_simulation_timestep(0.005)
@@ -141,7 +141,7 @@ if __name__ == '__main__':
     obs.set_all(False)
     scene = Scene(sim, robot, obs)
     try:
-        task_smoke(active_task, scene, variation=2)
+        task_smoke(active_task, scene, variation=1,demo_attempts=1,demos=1)
     except TaskValidationError as e:
         sim.shutdown()
         raise e
