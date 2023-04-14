@@ -44,7 +44,7 @@ class DropPen(Task):
                     target_space_descriptions = target_space_descriptions, focus_obj_id= target_obj.visual.get_handle())
             target_space.set_target(pick_obj.manipulated_part, try_ik_sampling=False, linear=False, release=True)
             MoveTask = T1_MoveObjectGoal(self.robot, self.pyrep, target_space, self.taks_base, fail_times=2)
-            GraspTask = T0_ObtainControl(self.robot, self.pyrep, pick_obj.manipulated_part, self.taks_base, try_times=500,
+            GraspTask = T0_ObtainControl(self.robot, self.pyrep, pick_obj.manipulated_part, self.taks_base, try_times=2,
                                         next_task_fuc=MoveTask.get_path)
             waypoints = GraspTask.get_path(try_ik_sampling=False, ignore_collisions=True)
             if waypoints is not None:

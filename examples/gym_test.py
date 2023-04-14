@@ -1,6 +1,6 @@
 import gymnasium as gym
 import amsolver.gym
-
+from gym.wrappers import HumanRendering
 """
 Data structure of Observation:
 {
@@ -39,16 +39,19 @@ Data structure of Observation:
 }
 """
 
-env = gym.make('drop_pen_color-vision-v0', render_mode='human')
+env = HumanRendering(
+    gym.make("drop_pen_color-vision-v0", render_mode="rgb_array")
+)
+
 
 training_steps = 120
 episode_length = 40
 for i in range(training_steps):
     if i % episode_length == 0:
         print('Reset Episode')
-        obs = env.reset()
+        obs, info = env.reset()
         descriptions = obs['descriptions']
-    obs, reward, terminate, _ = env.step(env.action_space.sample())
+    observation, reward, terminated, truncated, info = env.step(env.action_space.sample())
     env.render()  # Note: rendering increases step time.
 
 print('Done')

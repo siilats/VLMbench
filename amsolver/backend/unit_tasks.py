@@ -99,7 +99,7 @@ class TargetSpace(object):
         self.release = release
 
 class T0_ObtainControl(object):
-    def __init__(self, robot: Robot, pyrep: PyRep, target_obj:Shape, task_base:Dummy, try_times = 200,
+    def __init__(self, robot: Robot, pyrep: PyRep, target_obj:Shape, task_base:Dummy, try_times = 10,
                         table_height=0.752,need_post_grasp=True, 
                         table_offset_dist=0.01, 
                         pregrasp_dist=0.08, 
