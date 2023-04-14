@@ -8,6 +8,8 @@ import os
 from typing import Any, Dict, List, Tuple, Union
 from scipy.spatial.transform import Rotation as R
 from pyrep.pyrep import PyRep
+from pyrep.backend import sim
+
 from pyrep.objects.shape import Shape
 from pyrep.objects.joint import Joint
 from pyrep.objects.dummy import Dummy
@@ -36,7 +38,7 @@ class VLM_Object(Shape):
         else:
             model = pr.import_model(model_path)
             super().__init__(model.get_handle())
-        self.scale_factor = lib.simGetObjectSizeFactor(ffi.cast('int',self._handle))
+        self.scale_factor = sim.simGetObjectSizeFactor(self._handle)
         self.instance_id = instance_id
         for m in self.get_objects_in_tree(exclude_base=False):
             m.set_name(m.get_name()+str(instance_id))
