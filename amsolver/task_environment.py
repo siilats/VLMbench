@@ -3,6 +3,7 @@ import logging
 import pickle
 from sys import api_version
 from typing import List, Callable, Tuple
+import os
 
 import numpy as np
 from pyquaternion import Quaternion
@@ -61,7 +62,7 @@ class TaskEnvironment(object):
         self._prev_ee_velocity = None
         self._enable_path_observations = False
         tasks_folder = self._task.__module__.split('.')[0]
-        ttms_folder = './'+tasks_folder+'/task_ttms'
+        ttms_folder = os.path.abspath('../'+tasks_folder+'/task_ttms')
         self._scene.load(self._task, ttms_folder=ttms_folder)
         self._pyrep.start()
         self._robot_shapes = self._robot.arm.get_objects_in_tree(
