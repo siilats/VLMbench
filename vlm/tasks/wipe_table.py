@@ -15,7 +15,6 @@ from amsolver.backend.conditions import DetectedCondition
 from amsolver.backend.spawn_boundary import SpawnBoundary
 from amsolver.backend.task import Task
 from amsolver.backend.conditions import Condition
-from pyrep.backend._sim_cffi import ffi, lib
 
 DIRT_POINTS = 50
 class WipeTable(Task):

@@ -14,7 +14,6 @@ from pyrep.objects.dummy import Dummy
 from pyrep.objects.proximity_sensor import ProximitySensor
 from pyrep.objects.cartesian_path import CartesianPath
 from pyrep.const import PYREP_SCRIPT_TYPE, JointType
-from pyrep.backend._sim_cffi import ffi, lib
 from amsolver.backend.conditions import DetectedCondition
 from amsolver.backend.robot import Robot
 from amsolver.backend.spawn_boundary import BoundingBox, SpawnBoundary

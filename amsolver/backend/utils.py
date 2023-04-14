@@ -7,7 +7,6 @@ from typing import Dict, List, Tuple
 import numpy as np
 from PIL import Image
 from pyrep.backend import utils as pyrep_utils
-from pyrep.backend._sim_cffi import ffi, lib
 from pyrep.const import PYREP_SCRIPT_TYPE, JointType
 from pyrep.objects.dummy import Dummy
 from pyrep.objects.object import Object

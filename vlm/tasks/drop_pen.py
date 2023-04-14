@@ -6,7 +6,6 @@ from pyrep.objects.dummy import Dummy
 from pyrep.objects.shape import Shape
 from pyrep.objects.proximity_sensor import ProximitySensor
 from pyrep.const import ObjectType, PrimitiveShape
-from pyrep.backend._sim_cffi import ffi, lib
 from amsolver.backend.unit_tasks import T0_ObtainControl, T1_MoveObjectGoal, TargetSpace, VLM_Object
 from amsolver.const import colors
 from amsolver.backend.conditions import DetectedCondition
